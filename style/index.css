@@ -57,8 +57,18 @@
     padding: 0px 30px;
     border-radius: 11px;
     font-size: 16px;
-    transform: translateX(25px);
+    transform: translateX(36.5px);
     border: 0px;
+    color: rgb(141, 141, 141);
+}
+
+/* Pour la croix faire du js en mode, si carractère dans l'input ca apparait, et quand on click ca clear input*/
+.header_bloc_research_cross {
+    position: relative;
+    font-size: 23px;
+    color: rgb(179, 179, 179);
+    transform: translateX(-50px);
+    cursor: pointer;
 }
 
 .header_bloc_research_button {
@@ -70,10 +80,6 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    transform: translateX(-35px);
-}
-
-.header_bloc_research_button_logo {
-    color: white;
-    font-size: 22px;
+    transform: translateX(-38px);
+    cursor: pointer;
 }
