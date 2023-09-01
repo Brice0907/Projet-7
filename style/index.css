@@ -4,6 +4,8 @@
     box-sizing: border-box;
 }
 
+/* ------ HEADER ------ */
+
 .header {
     max-width: 1920px;
     height: 667px;
@@ -82,4 +84,63 @@
     position: relative;
     transform: translateX(-38px);
     cursor: pointer;
+}
+
+/* ------ TRIAGE ------ */
+
+.main {
+    background-color: #EDEDED;
+    max-width: 1920px;
+    padding: 40px 100px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top_triage {
+    display: flex;
+}
+
+.top_triage_tri {
+    margin: 0px 30px;
+}
+
+.top_quantite {
+    font-family: 'Anton', sans-serif;
+    font-size: 21px;
+}
+
+/* ------ MAIN ------ */
+
+.main_bloc {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.main_div {
+    width: 380px;
+    height: 550px;
+    margin: 0px 23px;
+    margin-bottom: 60px;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0px 4px 34px 30px rgba(0, 0, 0, 0.04);
+}
+
+.recipe_img {
+    width: 380px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.recipe_title {
+    font-family: 'Anton', sans-serif;
+    margin: 18px 23px;
 }
