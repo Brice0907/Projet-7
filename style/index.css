@@ -125,7 +125,7 @@
 
 .main_div {
     width: 380px;
-    height: 550px;
+    height: 750px;
     margin: 0px 23px;
     margin-bottom: 60px;
     background-color: white;
@@ -140,7 +140,60 @@
     object-fit: cover;
 }
 
+.recipe_time {
+    font-family: 'Manrope', sans-serif;
+    padding: 5px 15px;
+    background-color: #FFD15B;
+    text-align: center;
+    width: 80px;
+    position: absolute;
+    transform: translate(280px, -238px);
+    font-size: 16px;
+    border-radius: 20px;
+}
+
 .recipe_title {
     font-family: 'Anton', sans-serif;
     margin: 18px 23px;
+}
+
+.recipe_bloc_info {
+    padding: 0px 23px;
+    font-family: 'Manrope', sans-serif;
+    color: #7A7A7A;
+}
+
+.recipe_sous_title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.08px;
+    margin-bottom: 10px;
+}
+
+.recipe_description {
+    color: black;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.recipe_bloc_ingredient {
+    padding: 0px 23px;
+    font-family: 'Manrope', sans-serif;
+    color: #7A7A7A;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.bloc_ingredient {
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+.bloc_ingredient_title {
+    font-size: 13px;
+    color: black;
+}
+
+.bloc_ingredient_unite {
+    font-size: 13px;
 }
