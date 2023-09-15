@@ -2,7 +2,11 @@ import { recipes } from "../data/recipes.js";
 
 console.log(recipes)
 const main = document.querySelector('.main_bloc');
+let count = 0;
 recipes.forEach(element => {
+    count++;
+    const nbrRecipe = document.querySelector('.top_quantite');
+    nbrRecipe.textContent = count + " de reccettes";
 
     const image = `asset/${element.image}`;
 
@@ -73,3 +77,9 @@ recipes.forEach(element => {
     mainDiv.appendChild(blocIngredient);
     main.appendChild(mainDiv);
 });
+
+const btnTriage = document.querySelectorAll('.top_triage_tri');
+
+btnTriage.addEventListener('click', function () {
+    btnTriage.setAttribute('class',);
+})

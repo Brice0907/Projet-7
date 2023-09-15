@@ -66,7 +66,7 @@
 
 /* Pour la croix faire du js en mode, si carractère dans l'input ca apparait, et quand on click ca clear input*/
 .header_bloc_research_cross {
-    position: relative;
+    /* position: relative; */
     font-size: 23px;
     color: rgb(179, 179, 179);
     transform: translateX(-50px);
@@ -81,7 +81,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    /* position: relative; */
     transform: translateX(-38px);
     cursor: pointer;
 }
@@ -105,7 +105,54 @@
 }
 
 .top_triage_tri {
+    width: 180px;
     margin: 0px 30px;
+    background-color: white;
+    padding: 12px 17px;
+    border-radius: 10px;
+    font-family: 'Manrope', sans-serif;
+    cursor: pointer;
+}
+
+.top_triage_btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bloc_input_triage {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.top_triage_tri_research {
+    /* display: none; */
+}
+
+.top_triage_tri_input {
+    width: 146px;
+    border: 1px solid rgb(179, 179, 179);
+    border-radius: 2px;
+    padding: 7px;
+    color: rgb(141, 141, 141);
+}
+
+.bloc_input_triage_cross {
+    color: rgb(179, 179, 179);
+    font-size: 13px;
+    transform: translateX(-34px);
+}
+
+.bloc_input_triage_logo {
+    color: rgb(179, 179, 179);
+    font-size: 13px;
+    transform: translateX(-30px);
+    background-color: white;
+}
+
+.fa-chevron-up {
+    transform: rotate(180deg);
 }
 
 .top_quantite {
