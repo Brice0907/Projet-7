@@ -78,8 +78,27 @@ recipes.forEach(element => {
     main.appendChild(mainDiv);
 });
 
-const btnTriage = document.querySelectorAll('.top_triage_tri');
+const btnTriage = document.querySelectorAll('.top_triage_btn');
+const blocTriage = document.querySelectorAll('.top_triage_tri');
+const elementTriage = document.querySelectorAll('.top_triage_tri_research');
+const chevron = document.querySelectorAll('.fa-chevron-up');
 
-btnTriage.addEventListener('click', function () {
-    btnTriage.setAttribute('class',);
+btnTriage.forEach((btn, index) => {
+    btn.addEventListener('click', () => OpenTrie(index));
 })
+
+function OpenTrie(index) {
+
+    if (elementTriage[index].classList[1] == "block") {
+        chevron[index].classList.add('rotate');
+        blocTriage[index].classList.add("hauteur");
+        elementTriage[index].classList.add("none");
+        elementTriage[index].classList.remove("block");
+    } else {
+        chevron[index].classList.remove('rotate');
+        blocTriage[index].classList.remove("hauteur");
+        elementTriage[index].classList.remove("none");
+        elementTriage[index].classList.add("block");
+    }
+
+}

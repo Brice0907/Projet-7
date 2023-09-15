@@ -4,6 +4,18 @@
     box-sizing: border-box;
 }
 
+.none {
+    display: none;
+}
+
+.block {
+    display: block;
+}
+
+.hauteur {
+    max-height: 46px;
+}
+
 /* ------ HEADER ------ */
 
 .header {
@@ -126,9 +138,7 @@
     align-items: center;
 }
 
-.top_triage_tri_research {
-    /* display: none; */
-}
+.top_triage_tri_research {}
 
 .top_triage_tri_input {
     width: 146px;
@@ -151,7 +161,7 @@
     background-color: white;
 }
 
-.fa-chevron-up {
+.rotate {
     transform: rotate(180deg);
 }
 
