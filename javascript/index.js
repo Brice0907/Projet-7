@@ -66,7 +66,6 @@ recipes.forEach(element => {
         listIngredient.appendChild(quantity);
     })
 
-
     mainDiv.appendChild(img);
     mainDiv.appendChild(time)
     mainDiv.appendChild(title);
@@ -77,6 +76,65 @@ recipes.forEach(element => {
     mainDiv.appendChild(blocIngredient);
     main.appendChild(mainDiv);
 });
+
+// TRIE INGREDIENT
+
+let ingredientArray = []
+for (let i = 0; i < recipes.length; i++) {
+    for (let b = 0; b < recipes[i].ingredients.length; b++) {
+        let ingr = recipes[i].ingredients[b].ingredient
+        let ingredient = ingr.charAt(0).toUpperCase() + ingr.slice(1).toLowerCase();
+        ingredientArray.push(ingredient);
+    }
+}
+const newIngredientArray = ingredientArray.filter((a, b) => ingredientArray.indexOf(a) == b);
+
+const divBlocIngredient = document.querySelector('.top_triage_element');
+newIngredientArray.forEach(element => {
+    const div = document.createElement('div');
+    div.setAttribute('class', 'top_triage_element_text');
+    div.textContent = element
+    divBlocIngredient.appendChild(div)
+})
+
+// TRIE APPAREILS
+
+let appareilsArray = []
+for (let i = 0; i < recipes.length; i++) {
+    let app = recipes[i].appliance;
+    appareilsArray.push(app);
+}
+const newAppareilsArray = appareilsArray.filter((a, b) => appareilsArray.indexOf(a) == b);
+
+const divBlocAppareils = document.querySelector('.top_triage_element_appareils');
+newAppareilsArray.forEach(element => {
+    const div = document.createElement('div');
+    div.setAttribute('class', 'top_triage_element_text');
+    div.textContent = element;
+    divBlocAppareils.appendChild(div);
+})
+
+// TRIE USTENSILES
+
+let ustensilesArray = []
+for (let i = 0; i < recipes.length; i++) {
+    for (let b = 0; b < recipes[i].ustensils.length; b++) {
+        let ust = recipes[i].ustensils[b];
+        let ustensiles = ust.charAt(0).toUpperCase() + ust.slice(1).toLowerCase();
+        ustensilesArray.push(ustensiles);
+    }
+}
+const newUstensilesArray = ustensilesArray.filter((a, b) => ustensilesArray.indexOf(a) == b);
+
+const divBlocustensiles = document.querySelector('.top_triage_element_ustensiles');
+newUstensilesArray.forEach(element => {
+    const div = document.createElement('div');
+    div.setAttribute('class', 'top_triage_element_text');
+    div.textContent = element;
+    divBlocustensiles.appendChild(div);
+})
+
+// BOUTON TRIE
 
 const btnTriage = document.querySelectorAll('.top_triage_btn');
 const blocTriage = document.querySelectorAll('.top_triage_tri');

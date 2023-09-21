@@ -132,6 +132,35 @@
     align-items: center;
 }
 
+.top_triage_element {
+    margin-top: 12px;
+    max-height: 150px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.top_triage_element_appareils {
+    margin-top: 12px;
+    max-height: 150px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.top_triage_element_ustensiles {
+    margin-top: 12px;
+    max-height: 150px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.top_triage_element_text {
+    margin: 8px 0px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
 .bloc_input_triage {
     margin-top: 10px;
     display: flex;
