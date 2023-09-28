@@ -200,12 +200,10 @@ function crossHeaderApparition(inputHeader) {
     } else {
         crossHeader.classList.remove('fa-xmark');
         inputHeader.style.marginRight = "17px"
-
     }
 }
 
 const inputTri = document.querySelectorAll('.top_triage_tri_input');
-
 inputTri.forEach((input, index) => {
     input.addEventListener('input', () => crossApparition(input, index));
 })
@@ -217,6 +215,29 @@ function crossApparition(input, index) {
     } else {
         cross[index].classList.remove('fa-xmark');
         loopTri[index].style.transform = "translateX(-20px)";
+    }
+}
+
+const xmark = document.querySelectorAll('.cross');
+const input = document.querySelectorAll('.input');
+xmark.forEach((el, index) => {
+    el.addEventListener('click', () => clearInput(index));
+})
+
+function clearInput(index) {
+    xmark[index].classList.remove('fa-xmark');
+    input[index].value = '';
+    inputHeader.style.marginRight = "17px"
+
+    if (input[index].id == 'searchIngredient') {
+        divBlocIngredient.innerHTML = '';
+        ingredientAffi(newIngredientArray)
+    } else if (input[index].id == 'searchAppareils') {
+        divBlocAppareils.innerHTML = '';
+        appareilsAffi(newAppareilsArray)
+    } else if (input[index].id == 'searchUstensiles') {
+        divBlocustensiles.innerHTML = '';
+        ustensilesAffi(newUstensilesArray)
     }
 }
 
@@ -241,7 +262,6 @@ function filterIngredient(e, bloc, newArr) {
         let stringInput = e.target.value.toLowerCase();
 
         let filterIngredientArr = newArr.filter(el => el.toLowerCase().includes(stringInput))
-        console.log(e.target.id);
 
         if (e.target.id == 'searchIngredient') {
             ingredientAffi(filterIngredientArr)
