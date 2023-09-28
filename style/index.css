@@ -74,6 +74,7 @@
     transform: translateX(36.5px);
     border: 0px;
     color: rgb(141, 141, 141);
+    margin-right: 17px;
 }
 
 /* Pour la croix faire du js en mode, si carractère dans l'input ca apparait, et quand on click ca clear input*/
@@ -103,7 +104,7 @@
 .main {
     background-color: #EDEDED;
     max-width: 1920px;
-    padding: 40px 100px;
+    padding: 40px 110px;
 }
 
 .top {
@@ -186,7 +187,6 @@
 .bloc_input_triage_logo {
     color: rgb(179, 179, 179);
     font-size: 13px;
-    transform: translateX(-30px);
     background-color: white;
 }
 

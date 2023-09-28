@@ -78,6 +78,18 @@ recipes.forEach(element => {
 });
 
 // TRIE INGREDIENT
+// function filter à faire
+// testtt(recipes, "ingredients", "ingredient");
+// testtt(recipes, "ustensils");
+// function testtt(recipes, ingredients, ingredient){
+//     for (let i = 0; i < recipes.length; i++) {
+//         for (let b = 0; b < recipes[i][ingredients].length; b++) {
+//             let ingr = recipes[i][ingredients][b][ingredient]
+//             let ingredient = ingr.charAt(0).toUpperCase() + ingr.slice(1).toLowerCase();
+//             ingredientArray.push(ingredient);
+//         }
+//     }
+// }
 
 let ingredientArray = []
 for (let i = 0; i < recipes.length; i++) {
@@ -128,7 +140,7 @@ const newUstensilesArray = ustensilesArray.filter((a, b) => ustensilesArray.inde
 
 const divBlocustensiles = document.querySelector('.top_triage_element_ustensiles');
 newUstensilesArray.forEach(element => {
-    const div = document.createElement('div');
+    const div = document.createElement('div'); // essaie de datalist à la place de div
     div.setAttribute('class', 'top_triage_element_text');
     div.textContent = element;
     divBlocustensiles.appendChild(div);
@@ -140,6 +152,8 @@ const btnTriage = document.querySelectorAll('.top_triage_btn');
 const blocTriage = document.querySelectorAll('.top_triage_tri');
 const elementTriage = document.querySelectorAll('.top_triage_tri_research');
 const chevron = document.querySelectorAll('.fa-chevron-up');
+const cross = document.querySelectorAll('.bloc_input_triage_cross');
+const loopTri = document.querySelectorAll('.bloc_input_triage_logo');
 
 btnTriage.forEach((btn, index) => {
     btn.addEventListener('click', () => OpenTrie(index));
@@ -157,6 +171,42 @@ function OpenTrie(index) {
         blocTriage[index].classList.remove("hauteur");
         elementTriage[index].classList.remove("none");
         elementTriage[index].classList.add("block");
+        cross[index].classList.remove('fa-xmark');
+        loopTri[index].style.transform = "translateX(-20px)";
     }
+}
 
+// INPUT
+
+const inputHeader = document.querySelector('.header_bloc_research_bar');
+const crossHeader = document.querySelector('.header_bloc_research_cross');
+
+inputHeader.addEventListener('input', () => crossHeaderApparition(inputHeader));
+
+function crossHeaderApparition(inputHeader) {
+    if (inputHeader.value != "") {
+        crossHeader.classList.add('fa-xmark');
+        inputHeader.style.marginRight = "0px"
+
+    } else {
+        crossHeader.classList.remove('fa-xmark');
+        inputHeader.style.marginRight = "17px"
+
+    }
+}
+
+const inputTri = document.querySelectorAll('.top_triage_tri_input');
+
+inputTri.forEach((input, index) => {
+    input.addEventListener('input', () => crossApparition(input, index));
+})
+
+function crossApparition(input, index) {
+    if (input.value != "") {
+        cross[index].classList.add('fa-xmark');
+        loopTri[index].style.transform = "translateX(-30px)";
+    } else {
+        cross[index].classList.remove('fa-xmark');
+        loopTri[index].style.transform = "translateX(-20px)";
+    }
 }
