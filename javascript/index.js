@@ -102,12 +102,15 @@ for (let i = 0; i < recipes.length; i++) {
 const newIngredientArray = ingredientArray.filter((a, b) => ingredientArray.indexOf(a) == b);
 
 const divBlocIngredient = document.querySelector('.top_triage_element');
-newIngredientArray.forEach(element => {
-    const div = document.createElement('div');
-    div.setAttribute('class', 'top_triage_element_text');
-    div.textContent = element
-    divBlocIngredient.appendChild(div)
-})
+function ingredientAffi(filteredArray) {
+    filteredArray.forEach(element => {
+        const div = document.createElement('div');
+        div.setAttribute('class', 'top_triage_element_text');
+        div.textContent = element
+        divBlocIngredient.appendChild(div)
+    })
+}
+ingredientAffi(newIngredientArray)
 
 // TRIE APPAREILS
 
@@ -119,12 +122,15 @@ for (let i = 0; i < recipes.length; i++) {
 const newAppareilsArray = appareilsArray.filter((a, b) => appareilsArray.indexOf(a) == b);
 
 const divBlocAppareils = document.querySelector('.top_triage_element_appareils');
-newAppareilsArray.forEach(element => {
-    const div = document.createElement('div');
-    div.setAttribute('class', 'top_triage_element_text');
-    div.textContent = element;
-    divBlocAppareils.appendChild(div);
-})
+function appareilsAffi(filteredArray) {
+    filteredArray.forEach(element => {
+        const div = document.createElement('div');
+        div.setAttribute('class', 'top_triage_element_text');
+        div.textContent = element;
+        divBlocAppareils.appendChild(div);
+    })
+}
+appareilsAffi(newAppareilsArray)
 
 // TRIE USTENSILES
 
@@ -139,12 +145,15 @@ for (let i = 0; i < recipes.length; i++) {
 const newUstensilesArray = ustensilesArray.filter((a, b) => ustensilesArray.indexOf(a) == b);
 
 const divBlocustensiles = document.querySelector('.top_triage_element_ustensiles');
-newUstensilesArray.forEach(element => {
-    const div = document.createElement('div'); // essaie de datalist à la place de div
-    div.setAttribute('class', 'top_triage_element_text');
-    div.textContent = element;
-    divBlocustensiles.appendChild(div);
-})
+function ustensilesAffi(filteredArray) {
+    filteredArray.forEach(element => {
+        const div = document.createElement('div');
+        div.setAttribute('class', 'top_triage_element_text');
+        div.textContent = element;
+        divBlocustensiles.appendChild(div);
+    })
+}
+ustensilesAffi(newUstensilesArray)
 
 // BOUTON TRIE
 
@@ -208,5 +217,49 @@ function crossApparition(input, index) {
     } else {
         cross[index].classList.remove('fa-xmark');
         loopTri[index].style.transform = "translateX(-20px)";
+    }
+}
+
+// SYSTEME DE TRI INGREDIENT, APPAREILS, USTENSILES
+
+const searchIngredient = document.querySelector('#searchIngredient');
+const searchAppareil = document.querySelector('#searchAppareils');
+const searchUstensile = document.querySelector('#searchUstensiles');
+
+searchIngredient.addEventListener('input', (e) => test(e, searchIngredient, divBlocIngredient, newIngredientArray));
+searchAppareil.addEventListener('input', (e) => test(e, searchAppareil, divBlocAppareils, newAppareilsArray));
+searchUstensile.addEventListener('input', (e) => test(e, searchUstensile, divBlocustensiles, newUstensilesArray));
+
+function test(e, el, bloc, newArr) {
+    el.addEventListener('input', function () { filterIngredient(e, bloc, newArr) });
+}
+
+function filterIngredient(e, bloc, newArr) {
+    if (e.target.value.length >= 3) {
+        bloc.innerHTML = '';
+
+        let stringInput = e.target.value.toLowerCase();
+
+        let filterIngredientArr = newArr.filter(el => el.toLowerCase().includes(stringInput))
+        console.log(e.target.id);
+
+        if (e.target.id == 'searchIngredient') {
+            ingredientAffi(filterIngredientArr)
+        } else if (e.target.id == 'searchAppareils') {
+            appareilsAffi(filterIngredientArr)
+        } else if (e.target.id == 'searchUstensiles') {
+            ustensilesAffi(filterIngredientArr)
+        }
+
+    } else if (e.target.value.length < 3) {
+        bloc.innerHTML = '';
+
+        if (e.target.id == 'searchIngredient') {
+            ingredientAffi(newArr)
+        } else if (e.target.id == 'searchAppareils') {
+            appareilsAffi(newArr)
+        } else if (e.target.id == 'searchUstensiles') {
+            ustensilesAffi(newArr)
+        }
     }
 }
