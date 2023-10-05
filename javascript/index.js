@@ -3,79 +3,82 @@ import { recipes } from "../data/recipes.js";
 console.log(recipes)
 const main = document.querySelector('.main_bloc');
 let count = 0;
-recipes.forEach(element => {
-    count++;
-    const nbrRecipe = document.querySelector('.top_quantite');
-    nbrRecipe.textContent = count + " de reccettes";
+function affichageRecipes(recipes) {
+    recipes.forEach(element => {
+        count++;
+        const nbrRecipe = document.querySelector('.top_quantite');
+        nbrRecipe.textContent = count + " de reccettes";
 
-    const image = `asset/${element.image}`;
+        const image = `asset/${element.image}`;
 
-    const mainDiv = document.createElement('div');
-    mainDiv.setAttribute('class', 'main_div');
+        const mainDiv = document.createElement('div');
+        mainDiv.setAttribute('class', 'main_div');
 
-    const img = document.createElement('img');
-    img.setAttribute('src', image);
-    img.setAttribute('class', 'recipe_img')
+        const img = document.createElement('img');
+        img.setAttribute('src', image);
+        img.setAttribute('class', 'recipe_img')
 
-    const time = document.createElement('div');
-    time.setAttribute('class', 'recipe_time');
-    time.textContent = element.time + "min";
+        const time = document.createElement('div');
+        time.setAttribute('class', 'recipe_time');
+        time.textContent = element.time + "min";
 
-    const title = document.createElement('div');
-    title.setAttribute('class', 'recipe_title')
-    title.textContent = element.name;
+        const title = document.createElement('div');
+        title.setAttribute('class', 'recipe_title')
+        title.textContent = element.name;
 
-    const divBlocInfo = document.createElement('div');
-    divBlocInfo.setAttribute('class', 'recipe_bloc_info');
+        const divBlocInfo = document.createElement('div');
+        divBlocInfo.setAttribute('class', 'recipe_bloc_info');
 
-    const sousTitle1 = document.createElement('p');
-    sousTitle1.setAttribute('class', 'recipe_sous_title');
-    sousTitle1.textContent = "RECETTE";
+        const sousTitle1 = document.createElement('p');
+        sousTitle1.setAttribute('class', 'recipe_sous_title');
+        sousTitle1.textContent = "RECETTE";
 
-    const description = document.createElement('p');
-    description.setAttribute('class', 'recipe_description');
-    description.textContent = element.description;
+        const description = document.createElement('p');
+        description.setAttribute('class', 'recipe_description');
+        description.textContent = element.description;
 
-    const sousTitle2 = document.createElement('p');
-    sousTitle2.setAttribute('class', 'recipe_sous_title');
-    sousTitle2.textContent = "INGRÉDIENTS";
+        const sousTitle2 = document.createElement('p');
+        sousTitle2.setAttribute('class', 'recipe_sous_title');
+        sousTitle2.textContent = "INGRÉDIENTS";
 
-    const blocIngredient = document.createElement('div');
-    blocIngredient.setAttribute('class', 'recipe_bloc_ingredient');
+        const blocIngredient = document.createElement('div');
+        blocIngredient.setAttribute('class', 'recipe_bloc_ingredient');
 
-    element.ingredients.forEach(el => {
-        const listIngredient = document.createElement('div');
-        listIngredient.setAttribute('class', 'bloc_ingredient');
+        element.ingredients.forEach(el => {
+            const listIngredient = document.createElement('div');
+            listIngredient.setAttribute('class', 'bloc_ingredient');
 
-        const ingredient = document.createElement('p');
-        ingredient.setAttribute('class', 'bloc_ingredient_title');
-        ingredient.textContent = el.ingredient;
+            const ingredient = document.createElement('p');
+            ingredient.setAttribute('class', 'bloc_ingredient_title');
+            ingredient.textContent = el.ingredient;
 
-        const quantity = document.createElement('p');
-        quantity.setAttribute('class', 'bloc_ingredient_unite');
-        if (el.quantity != undefined && el.unit != undefined) {
-            quantity.textContent = el.quantity + " " + el.unit;
-        } else if (el.quantity != undefined) {
-            quantity.textContent = el.quantity;
-        } else {
-            return false;
-        }
+            const quantity = document.createElement('p');
+            quantity.setAttribute('class', 'bloc_ingredient_unite');
+            if (el.quantity != undefined && el.unit != undefined) {
+                quantity.textContent = el.quantity + " " + el.unit;
+            } else if (el.quantity != undefined) {
+                quantity.textContent = el.quantity;
+            } else {
+                return false;
+            }
 
-        blocIngredient.appendChild(listIngredient);
-        listIngredient.appendChild(ingredient);
-        listIngredient.appendChild(quantity);
-    })
+            blocIngredient.appendChild(listIngredient);
+            listIngredient.appendChild(ingredient);
+            listIngredient.appendChild(quantity);
+        })
 
-    mainDiv.appendChild(img);
-    mainDiv.appendChild(time)
-    mainDiv.appendChild(title);
-    mainDiv.appendChild(divBlocInfo);
-    divBlocInfo.appendChild(sousTitle1);
-    divBlocInfo.appendChild(description);
-    divBlocInfo.appendChild(sousTitle2);
-    mainDiv.appendChild(blocIngredient);
-    main.appendChild(mainDiv);
-});
+        mainDiv.appendChild(img);
+        mainDiv.appendChild(time)
+        mainDiv.appendChild(title);
+        mainDiv.appendChild(divBlocInfo);
+        divBlocInfo.appendChild(sousTitle1);
+        divBlocInfo.appendChild(description);
+        divBlocInfo.appendChild(sousTitle2);
+        mainDiv.appendChild(blocIngredient);
+        main.appendChild(mainDiv);
+    });
+}
+affichageRecipes(recipes);
 
 // TRIE INGREDIENT
 // function filter à faire
@@ -227,17 +230,19 @@ xmark.forEach((el, index) => {
 function clearInput(index) {
     xmark[index].classList.remove('fa-xmark');
     input[index].value = '';
-    inputHeader.style.marginRight = "17px"
 
-    if (input[index].id == 'searchIngredient') {
+    if (input[index].id === 'searchIngredient') {
         divBlocIngredient.innerHTML = '';
         ingredientAffi(newIngredientArray)
-    } else if (input[index].id == 'searchAppareils') {
+    } else if (input[index].id === 'searchAppareils') {
         divBlocAppareils.innerHTML = '';
         appareilsAffi(newAppareilsArray)
-    } else if (input[index].id == 'searchUstensiles') {
+    } else if (input[index].id === 'searchUstensiles') {
         divBlocustensiles.innerHTML = '';
         ustensilesAffi(newUstensilesArray)
+    } else if (input[index].id === 'research') {
+        inputHeader.style.marginRight = "17px"
+        affichageRecipes(recipes);
     }
 }
 
@@ -247,39 +252,74 @@ const searchIngredient = document.querySelector('#searchIngredient');
 const searchAppareil = document.querySelector('#searchAppareils');
 const searchUstensile = document.querySelector('#searchUstensiles');
 
-searchIngredient.addEventListener('input', (e) => test(e, searchIngredient, divBlocIngredient, newIngredientArray));
-searchAppareil.addEventListener('input', (e) => test(e, searchAppareil, divBlocAppareils, newAppareilsArray));
-searchUstensile.addEventListener('input', (e) => test(e, searchUstensile, divBlocustensiles, newUstensilesArray));
+searchIngredient.addEventListener('input', (e) => filtered(e, searchIngredient, divBlocIngredient, newIngredientArray));
+searchAppareil.addEventListener('input', (e) => filtered(e, searchAppareil, divBlocAppareils, newAppareilsArray));
+searchUstensile.addEventListener('input', (e) => filtered(e, searchUstensile, divBlocustensiles, newUstensilesArray));
 
-function test(e, el, bloc, newArr) {
+function filtered(e, el, bloc, newArr) {
     el.addEventListener('input', function () { filterIngredient(e, bloc, newArr) });
 }
 
 function filterIngredient(e, bloc, newArr) {
+
+    bloc.innerHTML = '';
+
     if (e.target.value.length >= 3) {
-        bloc.innerHTML = '';
 
         let stringInput = e.target.value.toLowerCase();
-
         let filterIngredientArr = newArr.filter(el => el.toLowerCase().includes(stringInput))
 
-        if (e.target.id == 'searchIngredient') {
+        if (e.target.id === 'searchIngredient') {
             ingredientAffi(filterIngredientArr)
-        } else if (e.target.id == 'searchAppareils') {
+        } else if (e.target.id === 'searchAppareils') {
             appareilsAffi(filterIngredientArr)
-        } else if (e.target.id == 'searchUstensiles') {
+        } else if (e.target.id === 'searchUstensiles') {
             ustensilesAffi(filterIngredientArr)
         }
 
     } else if (e.target.value.length < 3) {
-        bloc.innerHTML = '';
 
-        if (e.target.id == 'searchIngredient') {
+        if (e.target.id === 'searchIngredient') {
             ingredientAffi(newArr)
-        } else if (e.target.id == 'searchAppareils') {
+        } else if (e.target.id === 'searchAppareils') {
             appareilsAffi(newArr)
-        } else if (e.target.id == 'searchUstensiles') {
+        } else if (e.target.id === 'searchUstensiles') {
             ustensilesAffi(newArr)
         }
+    }
+}
+
+// SYSTEME DE TRI BARRE PRINCIPALE
+
+const searchBar = document.querySelector('.header_bloc_research_bar');
+
+searchBar.addEventListener('input', (e) => mainFilter(e));
+
+let newRecipes = [];
+
+function mainFilter(e) {
+
+    if (e.target.value.length >= 3) {
+        newRecipes = [];
+        main.innerHTML = "";
+        let stringInput = e.target.value.toLowerCase();
+
+        for (let i = 0; i < recipes.length; i++) {
+            let recipeName = recipes[i].name.toLocaleLowerCase();
+            let recipeDescription = recipes[i].description.toLocaleLowerCase();
+
+            for (let x = 0; x < recipes[i].ingredients.length; x++) {
+                let recipeIngredient = recipes[i].ingredients[x].ingredient.toLocaleLowerCase();
+
+                if (recipeName.includes(stringInput) || recipeDescription.includes(stringInput) || recipeIngredient.includes(stringInput)) {
+                    newRecipes.push(recipes[i]);
+                    break;
+                }
+            }
+        }
+        affichageRecipes(newRecipes);
+    } else if (e.target.value.length < 3) {
+        main.innerHTML = "";
+        affichageRecipes(recipes);
     }
 }
