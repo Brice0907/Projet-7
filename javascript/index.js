@@ -2,8 +2,9 @@ import { recipes } from "../data/recipes.js";
 
 console.log(recipes)
 const main = document.querySelector('.main_bloc');
-let count = 0;
+let newRecipes = [];
 function affichageRecipes(recipes) {
+    let count = 0;
     recipes.forEach(element => {
         count++;
         const nbrRecipe = document.querySelector('.top_quantite');
@@ -81,82 +82,87 @@ function affichageRecipes(recipes) {
 affichageRecipes(recipes);
 
 // TRIE INGREDIENT
-// function filter à faire
-// testtt(recipes, "ingredients", "ingredient");
-// testtt(recipes, "ustensils");
-// function testtt(recipes, ingredients, ingredient){
-//     for (let i = 0; i < recipes.length; i++) {
-//         for (let b = 0; b < recipes[i][ingredients].length; b++) {
-//             let ingr = recipes[i][ingredients][b][ingredient]
-//             let ingredient = ingr.charAt(0).toUpperCase() + ingr.slice(1).toLowerCase();
-//             ingredientArray.push(ingredient);
-//         }
-//     }
-// }
-
-let ingredientArray = []
-for (let i = 0; i < recipes.length; i++) {
-    for (let b = 0; b < recipes[i].ingredients.length; b++) {
-        let ingr = recipes[i].ingredients[b].ingredient
-        let ingredient = ingr.charAt(0).toUpperCase() + ingr.slice(1).toLowerCase();
-        ingredientArray.push(ingredient);
-    }
-}
-const newIngredientArray = ingredientArray.filter((a, b) => ingredientArray.indexOf(a) == b);
 
 const divBlocIngredient = document.querySelector('.top_triage_element');
+let ingredientArray = []
+function recipeIngredient(recette) {
+    ingredientArray = []
+    for (let i = 0; i < recette.length; i++) {
+        for (let b = 0; b < recette[i].ingredients.length; b++) {
+            let ingr = recette[i].ingredients[b].ingredient
+            let ingredient = ingr.charAt(0).toUpperCase() + ingr.slice(1).toLowerCase();
+            ingredientArray.push(ingredient);
+        }
+    }
+    const newIngredientArray = ingredientArray.filter((a, b) => ingredientArray.indexOf(a) == b);
+    divBlocIngredient.innerHTML = "";
+    ingredientAffi(newIngredientArray)
+    return newIngredientArray;
+}
+recipeIngredient(recipes)
+
 function ingredientAffi(filteredArray) {
     filteredArray.forEach(element => {
-        const div = document.createElement('div');
-        div.setAttribute('class', 'top_triage_element_text');
-        div.textContent = element
-        divBlocIngredient.appendChild(div)
+        divBloc(element, divBlocIngredient);
     })
 }
-ingredientAffi(newIngredientArray)
 
 // TRIE APPAREILS
 
-let appareilsArray = []
-for (let i = 0; i < recipes.length; i++) {
-    let app = recipes[i].appliance;
-    appareilsArray.push(app);
-}
-const newAppareilsArray = appareilsArray.filter((a, b) => appareilsArray.indexOf(a) == b);
-
 const divBlocAppareils = document.querySelector('.top_triage_element_appareils');
+let appareilsArray = []
+function recipeAppareils(recette) {
+    appareilsArray = []
+    for (let i = 0; i < recette.length; i++) {
+        let app = recette[i].appliance;
+        appareilsArray.push(app);
+    }
+    const newAppareilsArray = appareilsArray.filter((a, b) => appareilsArray.indexOf(a) == b);
+    divBlocAppareils.innerHTML = '';
+    appareilsAffi(newAppareilsArray)
+    return newAppareilsArray;
+}
+recipeAppareils(recipes);
+
 function appareilsAffi(filteredArray) {
     filteredArray.forEach(element => {
-        const div = document.createElement('div');
-        div.setAttribute('class', 'top_triage_element_text');
-        div.textContent = element;
-        divBlocAppareils.appendChild(div);
+        divBloc(element, divBlocAppareils);
     })
 }
-appareilsAffi(newAppareilsArray)
 
 // TRIE USTENSILES
 
-let ustensilesArray = []
-for (let i = 0; i < recipes.length; i++) {
-    for (let b = 0; b < recipes[i].ustensils.length; b++) {
-        let ust = recipes[i].ustensils[b];
-        let ustensiles = ust.charAt(0).toUpperCase() + ust.slice(1).toLowerCase();
-        ustensilesArray.push(ustensiles);
-    }
-}
-const newUstensilesArray = ustensilesArray.filter((a, b) => ustensilesArray.indexOf(a) == b);
-
 const divBlocustensiles = document.querySelector('.top_triage_element_ustensiles');
+let ustensilesArray = []
+function recipeUstensiles(recette) {
+    ustensilesArray = []
+    for (let i = 0; i < recette.length; i++) {
+        for (let b = 0; b < recette[i].ustensils.length; b++) {
+            let ust = recette[i].ustensils[b];
+            let ustensiles = ust.charAt(0).toUpperCase() + ust.slice(1).toLowerCase();
+            ustensilesArray.push(ustensiles);
+        }
+    }
+    const newUstensilesArray = ustensilesArray.filter((a, b) => ustensilesArray.indexOf(a) == b);
+    divBlocustensiles.innerHTML = '';
+    ustensilesAffi(newUstensilesArray)
+    return newUstensilesArray;
+}
+recipeUstensiles(recipes);
+
 function ustensilesAffi(filteredArray) {
     filteredArray.forEach(element => {
-        const div = document.createElement('div');
-        div.setAttribute('class', 'top_triage_element_text');
-        div.textContent = element;
-        divBlocustensiles.appendChild(div);
+        divBloc(element, divBlocustensiles);
     })
 }
-ustensilesAffi(newUstensilesArray)
+
+// CODE FACTORISÉ UTILISÉ DANS CHAQUE TRIE
+function divBloc(element, blocDiv) {
+    const div = document.createElement('div');
+    div.setAttribute('class', 'top_triage_element_text');
+    div.textContent = element;
+    blocDiv.appendChild(div);
+}
 
 // BOUTON TRIE
 
@@ -233,16 +239,19 @@ function clearInput(index) {
 
     if (input[index].id === 'searchIngredient') {
         divBlocIngredient.innerHTML = '';
-        ingredientAffi(newIngredientArray)
+        newRecipes.length ? recipeIngredient(newRecipes) : recipeIngredient(recipes);
     } else if (input[index].id === 'searchAppareils') {
         divBlocAppareils.innerHTML = '';
-        appareilsAffi(newAppareilsArray)
+        newRecipes.length ? recipeAppareils(newRecipes) : recipeAppareils(recipes);
     } else if (input[index].id === 'searchUstensiles') {
         divBlocustensiles.innerHTML = '';
-        ustensilesAffi(newUstensilesArray)
+        newRecipes.length ? recipeUstensiles(newRecipes) : recipeUstensiles(recipes);
     } else if (input[index].id === 'research') {
         inputHeader.style.marginRight = "17px"
         affichageRecipes(recipes);
+        recipeIngredient(recipes);
+        recipeAppareils(recipes);
+        recipeUstensiles(recipes);
     }
 }
 
@@ -252,9 +261,10 @@ const searchIngredient = document.querySelector('#searchIngredient');
 const searchAppareil = document.querySelector('#searchAppareils');
 const searchUstensile = document.querySelector('#searchUstensiles');
 
-searchIngredient.addEventListener('input', (e) => filtered(e, searchIngredient, divBlocIngredient, newIngredientArray));
-searchAppareil.addEventListener('input', (e) => filtered(e, searchAppareil, divBlocAppareils, newAppareilsArray));
-searchUstensile.addEventListener('input', (e) => filtered(e, searchUstensile, divBlocustensiles, newUstensilesArray));
+
+searchIngredient.addEventListener('input', (e) => filtered(e, searchIngredient, divBlocIngredient, newRecipes.length ? recipeIngredient(newRecipes) : recipeIngredient(recipes)));
+searchAppareil.addEventListener('input', (e) => filtered(e, searchAppareil, divBlocAppareils, newRecipes.length ? recipeAppareils(newRecipes) : recipeAppareils(recipes)));
+searchUstensile.addEventListener('input', (e) => filtered(e, searchUstensile, divBlocustensiles, newRecipes.length ? recipeUstensiles(newRecipes) : recipeUstensiles(recipes)));
 
 function filtered(e, el, bloc, newArr) {
     el.addEventListener('input', function () { filterIngredient(e, bloc, newArr) });
@@ -295,8 +305,6 @@ const searchBar = document.querySelector('.header_bloc_research_bar');
 
 searchBar.addEventListener('input', (e) => mainFilter(e));
 
-let newRecipes = [];
-
 function mainFilter(e) {
 
     if (e.target.value.length >= 3) {
@@ -317,9 +325,20 @@ function mainFilter(e) {
                 }
             }
         }
+        if (newRecipes.length === 0) {
+            const nbrRecipe = document.querySelector('.top_quantite');
+            nbrRecipe.textContent = 0 + " de reccette";
+        }
         affichageRecipes(newRecipes);
+        recipeIngredient(newRecipes);
+        recipeAppareils(newRecipes);
+        recipeUstensiles(newRecipes);
+
     } else if (e.target.value.length < 3) {
         main.innerHTML = "";
         affichageRecipes(recipes);
+        recipeIngredient(recipes);
+        recipeAppareils(recipes);
+        recipeUstensiles(recipes);
     }
 }
