@@ -234,7 +234,7 @@ xmark.forEach((el, index) => {
 })
 
 function clearInput(index) {
-    xmark[index].classList.remove('fa-xmark');
+    xmark[0].classList.remove('fa-xmark');
     input[index].value = '';
 
     if (input[index].id === 'searchIngredient') {
@@ -340,5 +340,57 @@ function mainFilter(e) {
         recipeIngredient(recipes);
         recipeAppareils(recipes);
         recipeUstensiles(recipes);
+    }
+}
+
+// FAIRE UNE DEUXIEME VERSION POUR LA BARRE DE RECHERCHE PRINCIPALE
+
+// TRI SECONDAIRE AU CLICK
+
+let elementText = document.querySelectorAll('.top_triage_element_text');
+let secondaireTri = document.querySelector('.secondaire_tri');
+
+elementText.forEach((el, index) => {
+    el.addEventListener('click', () => secondaireFilter(index))
+});
+
+function secondaireFilter(index) {
+    let div = document.createElement('div');
+    div.setAttribute('class', 'secondaire_tri_bloc')
+    div.textContent = elementText[index].textContent
+
+    let i = document.createElement('i');
+    i.setAttribute('class', 'fa-solid fa-xmark secondaire_tri_bloc_cross');
+
+    let triBloc = document.querySelectorAll('.secondaire_tri_bloc')
+
+    div.appendChild(i);
+
+    if (triBloc.length === 0) {
+        secondaireTri.appendChild(div);
+    }
+
+    let ajout = true;
+
+    for (let i = 0; i < triBloc.length; i++) {
+        if (triBloc[i].textContent === elementText[index].textContent) {
+            ajout = false;
+            break;
+        }
+    }
+
+    if (ajout) {
+        secondaireTri.appendChild(div);
+    }
+
+    i.addEventListener('click', (e) => secondaireFilterClear(e, index));
+}
+
+function secondaireFilterClear(e, index) {
+    let triBloc = document.querySelectorAll('.secondaire_tri_bloc')
+    for (let i = 0; i < triBloc.length; i++) {
+        if (elementText[index].textContent === triBloc[i].childNodes[0].data) {
+            triBloc[i].remove();
+        }
     }
 }

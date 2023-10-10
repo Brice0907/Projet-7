@@ -283,3 +283,27 @@
 .bloc_ingredient_unite {
     font-size: 13px;
 }
+
+.secondaire_tri {
+    margin: 0 30px;
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+}
+
+.secondaire_tri_bloc {
+    background: #FFD15B;
+    padding: 17px 18px;
+    border-radius: 10px;
+    font-family: Manrope;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.secondaire_tri_bloc_cross {
+    font-size: 19px;
+    margin-left: 13px;
+    cursor: pointer;
+}
