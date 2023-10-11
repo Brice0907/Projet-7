@@ -1,6 +1,5 @@
 import { recipes } from "../data/recipes.js";
 
-console.log(recipes)
 const main = document.querySelector('.main_bloc');
 let newRecipes = [];
 function affichageRecipes(recipes) {
@@ -97,6 +96,7 @@ function recipeIngredient(recette) {
     const newIngredientArray = ingredientArray.filter((a, b) => ingredientArray.indexOf(a) == b);
     divBlocIngredient.innerHTML = "";
     ingredientAffi(newIngredientArray)
+    secondaire()
     return newIngredientArray;
 }
 recipeIngredient(recipes)
@@ -120,6 +120,7 @@ function recipeAppareils(recette) {
     const newAppareilsArray = appareilsArray.filter((a, b) => appareilsArray.indexOf(a) == b);
     divBlocAppareils.innerHTML = '';
     appareilsAffi(newAppareilsArray)
+    secondaire();
     return newAppareilsArray;
 }
 recipeAppareils(recipes);
@@ -146,6 +147,7 @@ function recipeUstensiles(recette) {
     const newUstensilesArray = ustensilesArray.filter((a, b) => ustensilesArray.indexOf(a) == b);
     divBlocustensiles.innerHTML = '';
     ustensilesAffi(newUstensilesArray)
+    secondaire();
     return newUstensilesArray;
 }
 recipeUstensiles(recipes);
@@ -333,6 +335,7 @@ function mainFilter(e) {
         recipeIngredient(newRecipes);
         recipeAppareils(newRecipes);
         recipeUstensiles(newRecipes);
+        secondaire()
 
     } else if (e.target.value.length < 3) {
         main.innerHTML = "";
@@ -340,6 +343,7 @@ function mainFilter(e) {
         recipeIngredient(recipes);
         recipeAppareils(recipes);
         recipeUstensiles(recipes);
+        secondaire()
     }
 }
 
@@ -350,14 +354,20 @@ function mainFilter(e) {
 let elementText = document.querySelectorAll('.top_triage_element_text');
 let secondaireTri = document.querySelector('.secondaire_tri');
 
-elementText.forEach((el, index) => {
-    el.addEventListener('click', () => secondaireFilter(index))
-});
+function secondaire() {
+    let elementText = document.querySelectorAll('.top_triage_element_text');
+    elementText.forEach((el) => {
+        el.addEventListener('click', () => secondaireFilter(el))
+    });
+}
+secondaire()
 
-function secondaireFilter(index) {
+function secondaireFilter(el) {
+
     let div = document.createElement('div');
     div.setAttribute('class', 'secondaire_tri_bloc')
-    div.textContent = elementText[index].textContent
+    let content = el.textContent
+    div.textContent = content
 
     let i = document.createElement('i');
     i.setAttribute('class', 'fa-solid fa-xmark secondaire_tri_bloc_cross');
@@ -366,14 +376,10 @@ function secondaireFilter(index) {
 
     div.appendChild(i);
 
-    if (triBloc.length === 0) {
-        secondaireTri.appendChild(div);
-    }
-
     let ajout = true;
 
     for (let i = 0; i < triBloc.length; i++) {
-        if (triBloc[i].textContent === elementText[index].textContent) {
+        if (triBloc[i].textContent === el.textContent) {
             ajout = false;
             break;
         }
@@ -381,16 +387,101 @@ function secondaireFilter(index) {
 
     if (ajout) {
         secondaireTri.appendChild(div);
+        seconfaireFilterTri(content, newRecipes.length ? recipeIngredient(newRecipes) : recipeIngredient(recipes), newRecipes.length ? recipeAppareils(newRecipes) : recipeAppareils(recipes), newRecipes.length ? recipeUstensiles(newRecipes) : recipeUstensiles(recipes));
     }
 
-    i.addEventListener('click', (e) => secondaireFilterClear(e, index));
+    i.addEventListener('click', () => secondaireFilterClear(el));
 }
 
-function secondaireFilterClear(e, index) {
+// TRI SECONDAIRE SUPPRESSION FILTRE
+
+function secondaireFilterClear(el) {
     let triBloc = document.querySelectorAll('.secondaire_tri_bloc')
     for (let i = 0; i < triBloc.length; i++) {
-        if (elementText[index].textContent === triBloc[i].childNodes[0].data) {
+        if (el.textContent === triBloc[i].childNodes[0].data) {
             triBloc[i].remove();
         }
     }
+}
+
+// FUNCTION SECONDAIRE TRI TABLEAU
+
+let valeur = "";
+function seconfaireFilterTri(content, ingredientArr, appareilArr, ustensileArr) {
+    valeur = "";
+
+    for (let i = 0; i < ingredientArr.length; i++) {
+        if (content === ingredientArr[i]) {
+            console.log("c'est un ingredient");
+            valeur = "ingredient";
+            break;
+        }
+    }
+    if (!valeur) {
+        console.log("2");
+        for (let i = 0; i < appareilArr.length; i++) {
+            console.log("infini");
+            if (content === appareilArr[i]) {
+                console.log("c'est un appareil");
+                valeur = "appareil";
+                break;
+            }
+        }
+    }
+    if (!valeur) {
+        for (let i = 0; i < ustensileArr.length; i++) {
+            if (content === ustensileArr[i]) {
+                console.log("c'est un ustensile");
+                valeur = "ustensile";
+                break;
+            }
+        }
+    }
+
+    if (valeur) {
+        valeurTri(valeur, content, newRecipes.length ? newRecipes : recipes);
+    }
+}
+
+// 
+
+let newTab = [];
+function valeurTri(value, content, tableauRecipe) {
+    newTab = [];
+    console.log(tableauRecipe);
+    for (let i = 0; i < tableauRecipe.length; i++) {
+
+        if (value === "ingredient") {
+            for (let x = 0; x < tableauRecipe[i].ingredients.length; x++) {
+                let ingredient = tableauRecipe[i].ingredients[x].ingredient;
+
+                if (ingredient.includes(content)) {
+                    newTab.push(tableauRecipe[i])
+                    break;
+                }
+            }
+            // UNE FOIS LE TAB RETOURNE APPELLER LA FONCTION D AFFICHAGE ET METTRE LE TAB EN PARAM
+        }
+
+        if (value === "appareil") {
+            let appareil = tableauRecipe[i].appliance
+
+            if (appareil.includes(content)) {
+                newTab.push(tableauRecipe[i])
+            }
+        }
+
+        if (value === "ustensile") {
+            for (let b = 0; b < tableauRecipe[i].ustensils.length; b++) {
+                let ustensils = tableauRecipe[i].ustensils[b];
+
+                let ust = ustensils.charAt(0).toUpperCase() + ustensils.slice(1).toLowerCase();
+
+                if (ust.includes(content)) {
+                    newTab.push(tableauRecipe[i])
+                }
+            }
+        }
+    }
+    console.log(newTab);
 }
