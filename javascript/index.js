@@ -250,6 +250,8 @@ function clearInput(index) {
         newRecipes.length ? recipeUstensiles(newRecipes) : recipeUstensiles(recipes);
     } else if (input[index].id === 'research') {
         inputHeader.style.marginRight = "17px"
+        main.innerHTML = ""
+        tab = [];
         affiFacto()
     }
 }
@@ -346,6 +348,7 @@ function mainFilter(e) {
 
     } else if (e.target.value.length === 0) {
         main.innerHTML = "";
+        tab = [];
         affiFacto()
         secondaire()
     }
@@ -407,9 +410,9 @@ function secondaireFilter(el) {
         secondaireTri.appendChild(div);
         seconfaireFilterTri(
             content,
-            newRecipes.length ? recipeIngredient(newRecipes) : recipeIngredient(recipes),
-            newRecipes.length ? recipeAppareils(newRecipes) : recipeAppareils(recipes),
-            newRecipes.length ? recipeUstensiles(newRecipes) : recipeUstensiles(recipes)
+            newRecipes.length ? recipeIngredient(newRecipes) : tab.length ? recipeIngredient(tab) : recipeIngredient(recipes),
+            newRecipes.length ? recipeAppareils(newRecipes) : tab.length ? recipeAppareils(tab) : recipeAppareils(recipes),
+            newRecipes.length ? recipeUstensiles(newRecipes) : tab.length ? recipeUstensiles(tab) : recipeUstensiles(recipes)
         );
     }
 
@@ -423,9 +426,37 @@ function secondaireFilterClear(el) {
     for (let i = 0; i < triBloc.length; i++) {
         if (el.textContent === triBloc[i].childNodes[0].data) {
             triBloc[i].remove();
-            // console.log(triBloc.length);
-            // main.innerHTML = "";
-            // affichageRecipes(newRecipes);
+        }
+    }
+    affiAfterSuppr()
+}
+
+// RE AFFI APRES SUPPRESSION FILTRE 
+
+function affiAfterSuppr() {
+    let triBloc = document.querySelectorAll('.secondaire_tri_bloc')
+
+    if (tab.length === 0 && triBloc.length === 0) {
+        newRecipes = [];
+        main.innerHTML = "";
+        affiFacto()
+    }
+    if (triBloc.length === 0 && tab.length > 0) {
+        newRecipes = tab;
+        main.innerHTML = "";
+        affiFacto()
+        newRecipes = [];
+    }
+    if (triBloc.length > 0) {
+        newRecipes = []
+
+        for (let i = 0; i < triBloc.length; i++) {
+            if (!searchBar.value) {
+                seconfaireFilterTri(triBloc[i].textContent, recipeIngredient(recipes), recipeAppareils(recipes), recipeUstensiles(recipes));
+            }
+            if (tab.length > 0) {
+                seconfaireFilterTri(triBloc[i].textContent, recipeIngredient(tab), recipeAppareils(tab), recipeUstensiles(tab));
+            }
         }
     }
 }
@@ -435,32 +466,28 @@ function secondaireFilterClear(el) {
 let valeur = "";
 function seconfaireFilterTri(content, ingredientArr, appareilArr, ustensileArr) {
     valeur = "";
-    // re facto
-    for (let i = 0; i < ingredientArr.length; i++) {
-        if (content === ingredientArr[i]) {
-            valeur = "ingredient";
+
+    factoseconfaireFilterTri(ingredientArr, content, "ingredient");
+
+    if (!valeur) {
+        factoseconfaireFilterTri(appareilArr, content, "appareil");
+    }
+    if (!valeur) {
+        factoseconfaireFilterTri(ustensileArr, content, "ustensile");
+    }
+    if (valeur) {
+        valeurTri(valeur, content, newRecipes.length ? newRecipes : tab.length ? tab : recipes);
+    }
+}
+
+// FACTO FILTRE
+
+function factoseconfaireFilterTri(arr, content, obj) {
+    for (let i = 0; i < arr.length; i++) {
+        if (content === arr[i]) {
+            valeur = obj;
             break;
         }
-    }
-    if (!valeur) {
-        for (let i = 0; i < appareilArr.length; i++) {
-            if (content === appareilArr[i]) {
-                valeur = "appareil";
-                break;
-            }
-        }
-    }
-    if (!valeur) {
-        for (let i = 0; i < ustensileArr.length; i++) {
-            if (content === ustensileArr[i]) {
-                valeur = "ustensile";
-                break;
-            }
-        }
-    }
-
-    if (valeur) {
-        valeurTri(valeur, content, newRecipes.length ? newRecipes : recipes);
     }
 }
 
@@ -510,6 +537,5 @@ function valeurTri(value, content, tableauRecipe) {
     recipeUstensiles(newRecipes);
 }
 
-// faire l'actualisation lorsqu'on suppr
 // LORSQUE RECHERCHE INTROUVABLE // METTRE SE QU'IL Y A D'ECRIS DANS LA BARRE DE RECHERCHE + "Aucune recette ne contient ... "
 // FAIRE UNE DEUXIEME VERSION POUR LA BARRE DE RECHERCHE PRINCIPALE
