@@ -250,6 +250,19 @@ function clearInput(index) {
         newRecipes.length ? recipeUstensiles(newRecipes) : recipeUstensiles(recipes);
     } else if (input[index].id === 'research') {
         inputHeader.style.marginRight = "17px"
+        affiFacto()
+    }
+}
+
+// FUNCTION D'AFFI FACTO
+
+function affiFacto() {
+    if (newRecipes.length > 0) {
+        affichageRecipes(newRecipes);
+        recipeIngredient(newRecipes);
+        recipeAppareils(newRecipes);
+        recipeUstensiles(newRecipes);
+    } else {
         affichageRecipes(recipes);
         recipeIngredient(recipes);
         recipeAppareils(recipes);
@@ -306,52 +319,57 @@ function filterIngredient(e, bloc, newArr) {
 const searchBar = document.querySelector('.header_bloc_research_bar');
 
 searchBar.addEventListener('input', (e) => mainFilter(e));
-
+let tab = []
 function mainFilter(e) {
 
     if (e.target.value.length >= 3) {
-        newRecipes = [];
+
         main.innerHTML = "";
+
         let stringInput = e.target.value.toLowerCase();
 
-        for (let i = 0; i < recipes.length; i++) {
-            let recipeName = recipes[i].name.toLocaleLowerCase();
-            let recipeDescription = recipes[i].description.toLocaleLowerCase();
-
-            for (let x = 0; x < recipes[i].ingredients.length; x++) {
-                let recipeIngredient = recipes[i].ingredients[x].ingredient.toLocaleLowerCase();
-
-                if (recipeName.includes(stringInput) || recipeDescription.includes(stringInput) || recipeIngredient.includes(stringInput)) {
-                    newRecipes.push(recipes[i]);
-                    break;
-                }
-            }
+        if (newRecipes.length > 0) {
+            mainFacto(newRecipes, stringInput)
+        } else {
+            mainFacto(recipes, stringInput)
         }
+
         if (newRecipes.length === 0) {
             const nbrRecipe = document.querySelector('.top_quantite');
             nbrRecipe.textContent = 0 + " de reccette";
         }
-        affichageRecipes(newRecipes);
-        recipeIngredient(newRecipes);
-        recipeAppareils(newRecipes);
-        recipeUstensiles(newRecipes);
+        affichageRecipes(tab);
+        recipeIngredient(tab);
+        recipeAppareils(tab);
+        recipeUstensiles(tab);
         secondaire()
 
-    } else if (e.target.value.length < 3) {
+    } else if (e.target.value.length === 0) {
         main.innerHTML = "";
-        affichageRecipes(recipes);
-        recipeIngredient(recipes);
-        recipeAppareils(recipes);
-        recipeUstensiles(recipes);
+        affiFacto()
         secondaire()
     }
 }
 
-// FAIRE UNE DEUXIEME VERSION POUR LA BARRE DE RECHERCHE PRINCIPALE
+function mainFacto(recette, str) {
+    tab = []
+    for (let i = 0; i < recette.length; i++) {
+        let recipeName = recette[i].name.toLocaleLowerCase();
+        let recipeDescription = recette[i].description.toLocaleLowerCase();
+
+        for (let x = 0; x < recette[i].ingredients.length; x++) {
+            let recipeIngredient = recette[i].ingredients[x].ingredient.toLocaleLowerCase();
+
+            if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
+                tab.push(recette[i]);
+                break;
+            }
+        }
+    }
+}
 
 // TRI SECONDAIRE AU CLICK
 
-let elementText = document.querySelectorAll('.top_triage_element_text');
 let secondaireTri = document.querySelector('.secondaire_tri');
 
 function secondaire() {
@@ -387,7 +405,12 @@ function secondaireFilter(el) {
 
     if (ajout) {
         secondaireTri.appendChild(div);
-        seconfaireFilterTri(content, newRecipes.length ? recipeIngredient(newRecipes) : recipeIngredient(recipes), newRecipes.length ? recipeAppareils(newRecipes) : recipeAppareils(recipes), newRecipes.length ? recipeUstensiles(newRecipes) : recipeUstensiles(recipes));
+        seconfaireFilterTri(
+            content,
+            newRecipes.length ? recipeIngredient(newRecipes) : recipeIngredient(recipes),
+            newRecipes.length ? recipeAppareils(newRecipes) : recipeAppareils(recipes),
+            newRecipes.length ? recipeUstensiles(newRecipes) : recipeUstensiles(recipes)
+        );
     }
 
     i.addEventListener('click', () => secondaireFilterClear(el));
@@ -400,6 +423,9 @@ function secondaireFilterClear(el) {
     for (let i = 0; i < triBloc.length; i++) {
         if (el.textContent === triBloc[i].childNodes[0].data) {
             triBloc[i].remove();
+            // console.log(triBloc.length);
+            // main.innerHTML = "";
+            // affichageRecipes(newRecipes);
         }
     }
 }
@@ -409,20 +435,16 @@ function secondaireFilterClear(el) {
 let valeur = "";
 function seconfaireFilterTri(content, ingredientArr, appareilArr, ustensileArr) {
     valeur = "";
-
+    // re facto
     for (let i = 0; i < ingredientArr.length; i++) {
         if (content === ingredientArr[i]) {
-            console.log("c'est un ingredient");
             valeur = "ingredient";
             break;
         }
     }
     if (!valeur) {
-        console.log("2");
         for (let i = 0; i < appareilArr.length; i++) {
-            console.log("infini");
             if (content === appareilArr[i]) {
-                console.log("c'est un appareil");
                 valeur = "appareil";
                 break;
             }
@@ -431,7 +453,6 @@ function seconfaireFilterTri(content, ingredientArr, appareilArr, ustensileArr) 
     if (!valeur) {
         for (let i = 0; i < ustensileArr.length; i++) {
             if (content === ustensileArr[i]) {
-                console.log("c'est un ustensile");
                 valeur = "ustensile";
                 break;
             }
@@ -443,12 +464,11 @@ function seconfaireFilterTri(content, ingredientArr, appareilArr, ustensileArr) 
     }
 }
 
-// 
+// AFFICHAGE DES RECETTE APRES FILTRE + MISE A JOUR FILTRE APRES FILTRE
 
-let newTab = [];
 function valeurTri(value, content, tableauRecipe) {
-    newTab = [];
-    console.log(tableauRecipe);
+    newRecipes = [];
+
     for (let i = 0; i < tableauRecipe.length; i++) {
 
         if (value === "ingredient") {
@@ -456,18 +476,17 @@ function valeurTri(value, content, tableauRecipe) {
                 let ingredient = tableauRecipe[i].ingredients[x].ingredient;
 
                 if (ingredient.includes(content)) {
-                    newTab.push(tableauRecipe[i])
+                    newRecipes.push(tableauRecipe[i])
                     break;
                 }
             }
-            // UNE FOIS LE TAB RETOURNE APPELLER LA FONCTION D AFFICHAGE ET METTRE LE TAB EN PARAM
         }
 
         if (value === "appareil") {
             let appareil = tableauRecipe[i].appliance
 
             if (appareil.includes(content)) {
-                newTab.push(tableauRecipe[i])
+                newRecipes.push(tableauRecipe[i])
             }
         }
 
@@ -478,10 +497,19 @@ function valeurTri(value, content, tableauRecipe) {
                 let ust = ustensils.charAt(0).toUpperCase() + ustensils.slice(1).toLowerCase();
 
                 if (ust.includes(content)) {
-                    newTab.push(tableauRecipe[i])
+                    newRecipes.push(tableauRecipe[i])
                 }
             }
         }
     }
-    console.log(newTab);
+
+    main.innerHTML = "";
+    affichageRecipes(newRecipes);
+    recipeIngredient(newRecipes);
+    recipeAppareils(newRecipes);
+    recipeUstensiles(newRecipes);
 }
+
+// faire l'actualisation lorsqu'on suppr
+// LORSQUE RECHERCHE INTROUVABLE // METTRE SE QU'IL Y A D'ECRIS DANS LA BARRE DE RECHERCHE + "Aucune recette ne contient ... "
+// FAIRE UNE DEUXIEME VERSION POUR LA BARRE DE RECHERCHE PRINCIPALE
