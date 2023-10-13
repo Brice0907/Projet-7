@@ -336,9 +336,10 @@ function mainFilter(e) {
             mainFacto(recipes, stringInput)
         }
 
-        if (newRecipes.length === 0) {
+        if (tab.length === 0) {
             const nbrRecipe = document.querySelector('.top_quantite');
             nbrRecipe.textContent = 0 + " de reccette";
+            main.innerHTML = "Aucune recette ne contient " + e.target.value;
         }
         affichageRecipes(tab);
         recipeIngredient(tab);
@@ -537,5 +538,4 @@ function valeurTri(value, content, tableauRecipe) {
     recipeUstensiles(newRecipes);
 }
 
-// LORSQUE RECHERCHE INTROUVABLE // METTRE SE QU'IL Y A D'ECRIS DANS LA BARRE DE RECHERCHE + "Aucune recette ne contient ... "
 // FAIRE UNE DEUXIEME VERSION POUR LA BARRE DE RECHERCHE PRINCIPALE
