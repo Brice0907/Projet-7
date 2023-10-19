@@ -358,48 +358,48 @@ function mainFilter(e) {
 
 // VERSION 1 FACTO, POUR CHANGER DE VERSION METTRE EN COMMENTAIRE CELLE DONT ON NE VEUT PAS ET RETIRER DES COMMENTAIRES L'AUTRE
 
-// function mainFacto(recette, str) {
-//     tab = []
-//     for (let i = 0; i < recette.length; i++) {
-//         let recipeName = recette[i].name.toLocaleLowerCase();
-//         let recipeDescription = recette[i].description.toLocaleLowerCase();
+function mainFacto(recette, str) {
+    tab = []
+    for (let i = 0; i < recette.length; i++) {
+        let recipeName = recette[i].name.toLocaleLowerCase();
+        let recipeDescription = recette[i].description.toLocaleLowerCase();
 
-//         for (let x = 0; x < recette[i].ingredients.length; x++) {
-//             let recipeIngredient = recette[i].ingredients[x].ingredient.toLocaleLowerCase();
+        for (let x = 0; x < recette[i].ingredients.length; x++) {
+            let recipeIngredient = recette[i].ingredients[x].ingredient.toLocaleLowerCase();
 
-//             if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
-//                 tab.push(recette[i]);
-//                 break;
-//             }
-//         }
-//     }
-// }
+            if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
+                tab.push(recette[i]);
+                break;
+            }
+        }
+    }
+}
 
 // VERSION 2 FACTO, POUR CHANGER DE VERSION METTRE EN COMMENTAIRE CELLE DONT ON NE VEUT PAS ET RETIRER DES COMMENTAIRES L'AUTRE
 
-function mainFacto(recette, str) {
-    tab = []
-    let found = false;
+// function mainFacto(recette, str) {
+//     tab = []
+//     let found = false;
 
-    recette.forEach(element => {
-        found = false;
+//     recette.forEach(element => {
+//         found = false;
 
-        let recipeName = element.name.toLocaleLowerCase();
-        let recipeDescription = element.description.toLocaleLowerCase();
+//         let recipeName = element.name.toLocaleLowerCase();
+//         let recipeDescription = element.description.toLocaleLowerCase();
 
-        element.ingredients.forEach(el => {
+//         element.ingredients.forEach(el => {
 
-            if (found) return;
+//             if (found) return;
 
-            let recipeIngredient = el.ingredient.toLocaleLowerCase();
+//             let recipeIngredient = el.ingredient.toLocaleLowerCase();
 
-            if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
-                tab.push(element);
-                found = true
-            }
-        })
-    });
-}
+//             if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
+//                 tab.push(element);
+//                 found = true
+//             }
+//         })
+//     });
+// }
 
 // TRI SECONDAIRE AU CLICK
 
