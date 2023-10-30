@@ -1,5 +1,7 @@
 import { recipes } from "../data/recipes.js";
 
+// Balisage + contenu
+
 const main = document.querySelector('.main_bloc');
 let newRecipes = [];
 function affichageRecipes(recipes) {
@@ -7,7 +9,7 @@ function affichageRecipes(recipes) {
     recipes.forEach(element => {
         count++;
         const nbrRecipe = document.querySelector('.top_quantite');
-        nbrRecipe.textContent = count + " de reccettes";
+        nbrRecipe.textContent = count + " reccettes";
 
         const image = `asset/${element.image}`;
 
@@ -96,10 +98,11 @@ function recipeIngredient(recette) {
     const newIngredientArray = ingredientArray.filter((a, b) => ingredientArray.indexOf(a) == b);
     divBlocIngredient.innerHTML = "";
     ingredientAffi(newIngredientArray)
-    secondaire()
     return newIngredientArray;
 }
 recipeIngredient(recipes)
+
+// AFFICHAGE INGREDIENT 
 
 function ingredientAffi(filteredArray) {
     filteredArray.forEach(element => {
@@ -120,10 +123,11 @@ function recipeAppareils(recette) {
     const newAppareilsArray = appareilsArray.filter((a, b) => appareilsArray.indexOf(a) == b);
     divBlocAppareils.innerHTML = '';
     appareilsAffi(newAppareilsArray)
-    secondaire();
     return newAppareilsArray;
 }
 recipeAppareils(recipes);
+
+// AFFICHAGE APPAREILS 
 
 function appareilsAffi(filteredArray) {
     filteredArray.forEach(element => {
@@ -147,10 +151,11 @@ function recipeUstensiles(recette) {
     const newUstensilesArray = ustensilesArray.filter((a, b) => ustensilesArray.indexOf(a) == b);
     divBlocustensiles.innerHTML = '';
     ustensilesAffi(newUstensilesArray)
-    secondaire();
     return newUstensilesArray;
 }
 recipeUstensiles(recipes);
+
+// AFFICHAGE USTENSILES 
 
 function ustensilesAffi(filteredArray) {
     filteredArray.forEach(element => {
@@ -164,9 +169,10 @@ function divBloc(element, blocDiv) {
     div.setAttribute('class', 'top_triage_element_text');
     div.textContent = element;
     blocDiv.appendChild(div);
+    secondaire()
 }
 
-// BOUTON TRIE
+// BOUTON TRIE OUVERTURE DU BLOC
 
 const btnTriage = document.querySelectorAll('.top_triage_btn');
 const blocTriage = document.querySelectorAll('.top_triage_tri');
@@ -196,7 +202,7 @@ function OpenTrie(index) {
     }
 }
 
-// INPUT
+// INPUT GESTION DE LA CROSS ET DE LA SUPPRESSION
 
 const inputHeader = document.querySelector('.header_bloc_research_bar');
 const crossHeader = document.querySelector('.header_bloc_research_cross');
@@ -207,7 +213,6 @@ function crossHeaderApparition(inputHeader) {
     if (inputHeader.value != "") {
         crossHeader.classList.add('fa-xmark');
         inputHeader.style.marginRight = "0px"
-
     } else {
         crossHeader.classList.remove('fa-xmark');
         inputHeader.style.marginRight = "17px"
@@ -358,48 +363,48 @@ function mainFilter(e) {
 
 // VERSION 1 FACTO, POUR CHANGER DE VERSION METTRE EN COMMENTAIRE CELLE DONT ON NE VEUT PAS ET RETIRER DES COMMENTAIRES L'AUTRE
 
-function mainFacto(recette, str) {
-    tab = []
-    for (let i = 0; i < recette.length; i++) {
-        let recipeName = recette[i].name.toLocaleLowerCase();
-        let recipeDescription = recette[i].description.toLocaleLowerCase();
+// function mainFacto(recette, str) {
+//     tab = []
+//     for (let i = 0; i < recette.length; i++) {
+//         let recipeName = recette[i].name.toLocaleLowerCase();
+//         let recipeDescription = recette[i].description.toLocaleLowerCase();
 
-        for (let x = 0; x < recette[i].ingredients.length; x++) {
-            let recipeIngredient = recette[i].ingredients[x].ingredient.toLocaleLowerCase();
+//         for (let x = 0; x < recette[i].ingredients.length; x++) {
+//             let recipeIngredient = recette[i].ingredients[x].ingredient.toLocaleLowerCase();
 
-            if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
-                tab.push(recette[i]);
-                break;
-            }
-        }
-    }
-}
+//             if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
+//                 tab.push(recette[i]);
+//                 break;
+//             }
+//         }
+//     }
+// }
 
 // VERSION 2 FACTO, POUR CHANGER DE VERSION METTRE EN COMMENTAIRE CELLE DONT ON NE VEUT PAS ET RETIRER DES COMMENTAIRES L'AUTRE
 
-// function mainFacto(recette, str) {
-//     tab = []
-//     let found = false;
+function mainFacto(recette, str) {
+    tab = []
+    let found = false;
 
-//     recette.forEach(element => {
-//         found = false;
+    recette.forEach(element => {
+        found = false;
 
-//         let recipeName = element.name.toLocaleLowerCase();
-//         let recipeDescription = element.description.toLocaleLowerCase();
+        let recipeName = element.name.toLocaleLowerCase();
+        let recipeDescription = element.description.toLocaleLowerCase();
 
-//         element.ingredients.forEach(el => {
+        element.ingredients.forEach(el => {
 
-//             if (found) return;
+            if (found) return;
 
-//             let recipeIngredient = el.ingredient.toLocaleLowerCase();
+            let recipeIngredient = el.ingredient.toLocaleLowerCase();
 
-//             if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
-//                 tab.push(element);
-//                 found = true
-//             }
-//         })
-//     });
-// }
+            if (recipeName.includes(str) || recipeDescription.includes(str) || recipeIngredient.includes(str)) {
+                tab.push(element);
+                found = true
+            }
+        })
+    });
+}
 
 // TRI SECONDAIRE AU CLICK
 
@@ -412,6 +417,8 @@ function secondaire() {
     });
 }
 secondaire()
+
+// AJOUT DU FILTRE SUR LEQUEL ON A CLIQUÉ + MISE A JOUR DES TABLEAUX
 
 function secondaireFilter(el) {
 
